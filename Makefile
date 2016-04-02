@@ -1,3 +1,6 @@
+all: compile demo
+compile:
+	./compile.sh
 demo:
 	-chmod u+x ./*.sh
 	rm -rf output

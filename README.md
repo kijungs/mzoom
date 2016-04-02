@@ -20,4 +20,4 @@ Please see [User Guide](user_guide.pdf)
 
 Running Demo
 ========================
-For demo, please type 'demo'
+For demo, please type 'make'
