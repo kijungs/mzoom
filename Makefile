@@ -1,5 +1,6 @@
 all: compile demo
 compile:
+	-chmod u+x ./*.sh
 	./compile.sh
 demo:
 	-chmod u+x ./*.sh
