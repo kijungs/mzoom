@@ -6,10 +6,6 @@ M-Zoom (Multidimensional Zoom)
  * *provably accurate*: provides high accuracy in real data as well as theoretical guarantees
  * *flexible*: supports high-order tensors, various density measures, multi-block detection, and size bounds
 
-Supplementary Document
-========================
-A supplementary document is available [here](http://www.cs.cmu.edu/~kijungs/mzoom/)
-
 Datasets
 ========================
 The download links for the datasets used in the paper are [here](http://www.cs.cmu.edu/~kijungs/mzoom/)
