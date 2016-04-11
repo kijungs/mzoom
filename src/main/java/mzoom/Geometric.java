@@ -23,7 +23,7 @@ public class Geometric implements IDensityMeasure {
 
     private int dimension;
     private int[] cardinalities;
-    private double mass;
+    private long mass;
     private double productOfCardinalities;
 
     public double initialize(Tensor tensor) {
@@ -42,8 +42,8 @@ public class Geometric implements IDensityMeasure {
     }
 
     public double remove(int attribute, int mass) {
-        productOfCardinalities = Suspiciousness.productOfCardinalities(cardinalities); //recompute due to the precision error
         cardinalities[attribute]--;
+        productOfCardinalities = Suspiciousness.productOfCardinalities(cardinalities); //recompute due to the precision error
         this.mass -= mass;
         return density(this.mass, productOfCardinalities);
     }
