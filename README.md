@@ -26,6 +26,6 @@ If you use this code as part of any published research, please acknowledge the f
 author    = {Kijung Shin and Bryan Hooi and Christos Faloutsos},
 title     = {M-Zoom: Fast Dense-Block Detection in Tensors with Quality Guarantees},
 booktitle = {PKDD},
-year      = 2016
+year      = {2016}
 }
 ```
