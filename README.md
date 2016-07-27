@@ -23,9 +23,9 @@ Reference
 If you use this code as part of any published research, please acknowledge the following paper.
 ```
 @inproceedings{shin2016mzoom,
-author    = {Kijung Shin and Bryan Hooi and Christos Faloutsos},
-title     = {M-Zoom: Fast Dense-Block Detection in Tensors with Quality Guarantees},
-booktitle = {PKDD},
-year      = {2016}
+  title={M-Zoom: Fast Dense-Block Detection in Tensors with Quality Guarantees},
+  author={Shin, Kijung and Hooi, Bryan and Faloutsos, Christos},
+  booktitle={Joint European Conference on Machine Learning and Knowledge Discovery in Databases},
+  year={2016}
 }
 ```
