@@ -23,9 +23,12 @@ Reference
 If you use this code as part of any published research, please acknowledge the following paper.
 ```
 @inproceedings{shin2016mzoom,
-  title={M-Zoom: Fast Dense-Block Detection in Tensors with Quality Guarantees},
-  author={Shin, Kijung and Hooi, Bryan and Faloutsos, Christos},
-  booktitle={Joint European Conference on Machine Learning and Knowledge Discovery in Databases},
-  year={2016}
+  author    = {Kijung Shin and Bryan Hooi and Christos Faloutsos},
+  title     = {M-Zoom: Fast Dense-Block Detection in Tensors with Quality Guarantees},
+  booktitle = {Joint European Conference on Machine Learning and Knowledge Discovery in Databases},
+  pages     = {264--280},
+  year      = {2016},
+  url       = {http://dx.doi.org/10.1007/978-3-319-46128-1_17},
+  doi       = {10.1007/978-3-319-46128-1_17}
 }
 ```
