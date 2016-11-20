@@ -1,6 +1,6 @@
 M-Zoom: Fast Dense-Block Detection in Tensors with Quality Guarantees
 ========================
-**M-Zoom (Multidimensional Zoom)** is an algorithm for detecting dense blocks in tensors.
+**M-Zoom (Multidimensional Zoom)** is an algorithm for detecting dense subtensors in tensors.
 **M-Zoom** has the following properties:
  * *scalable*: scales almost linearly with all input factors
  * *provably accurate*: provides high accuracy in real data as well as theoretical guarantees
