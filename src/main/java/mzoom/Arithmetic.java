@@ -3,8 +3,8 @@
  * M-Zoom: Fast Dense Block Detection in Tensors with Quality Guarantees.
  * Authors: Kijung Shin, Bryan Hooi, and Christos Faloutsos
  *
- * Version: 1.0
- * Date: March 10, 2016
+ * Version: 2.0
+ * Date: Nov 8, 2016
  * Main Contact: Kijung Shin (kijungs@cs.cmu.edu)
  *
  * This software is free of charge under research purposes.
@@ -25,32 +25,52 @@ public class Arithmetic implements IDensityMeasure {
     private long mass;
     private int sumOfCardinalities;
 
-    public double initialize(Tensor tensor) {
-        this.dimension = tensor.dimension;
-        this.mass = tensor.mass;
+    public double initialize(int dimension, int[] cardinalities, long mass) {
+        this.dimension = dimension;
+        this.mass = mass;
         sumOfCardinalities = 0;
         for(int dim = 0; dim < dimension; dim++) {
-            sumOfCardinalities += tensor.cardinalities[dim];
+            sumOfCardinalities += cardinalities[dim];
         }
         return density(mass, sumOfCardinalities);
     }
 
-    public double ifRemoved(int attribute, int mass) {
-        return density(this.mass - mass, sumOfCardinalities - 1);
+    public double initialize(int dimension, int[] cardinalitiesOfAll, long massOfAll, int[] cardinaltiesOfBlock, long massOfBlock) {
+        this.dimension = dimension;
+        this.mass = massOfBlock;
+        sumOfCardinalities = 0;
+        for(int dim = 0; dim < dimension; dim++) {
+            sumOfCardinalities += cardinaltiesOfBlock[dim];
+        }
+        return density(mass, sumOfCardinalities);
     }
 
-    public double remove(int attribute, int mass) {
-        this.mass -= mass;
-        sumOfCardinalities -= 1;
+    public double ifRemoved(int attribute, int numValues, long sumOfMasses) {
+        return density(this.mass - sumOfMasses, sumOfCardinalities - numValues);
+    }
+
+    public double ifInserted(int attribute, int numValues, long sumOfMasses) {
+        return density(this.mass + sumOfMasses, sumOfCardinalities + numValues);
+    }
+
+    public double remove(int attribute, int numValues, long sumOfMasses) {
+        this.mass -= sumOfMasses;
+        sumOfCardinalities -= numValues;
+        return density(this.mass, sumOfCardinalities);
+    }
+
+    public double insert(int attribute, int numValues, long sumOfMasses) {
+        this.mass += sumOfMasses;
+        sumOfCardinalities += numValues;
         return density(this.mass, sumOfCardinalities);
     }
 
     public double density(long sumOfPart, int[] cardinalities) {
-        int sumOfattributeLengthsPart = 0;
+        int sumOfCardinalitiesPart = 0;
         for(int dim = 0; dim < dimension; dim++) {
-            sumOfattributeLengthsPart += cardinalities[dim];
+            sumOfCardinalitiesPart += cardinalities[dim];
         }
-        return density(sumOfPart, sumOfattributeLengthsPart);
+        return density(sumOfPart, sumOfCardinalitiesPart);
     }
 
     private double density(long sumOfPart, double sumOfCardinalities) {

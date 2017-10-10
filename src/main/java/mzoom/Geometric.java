@@ -3,8 +3,8 @@
  * M-Zoom: Fast Dense Block Detection in Tensors with Quality Guarantees.
  * Authors: Kijung Shin, Bryan Hooi, and Christos Faloutsos
  *
- * Version: 1.0
- * Date: March 10, 2016
+ * Version: 2.0
+ * Date: Nov 8, 2016
  * Main Contact: Kijung Shin (kijungs@cs.cmu.edu)
  *
  * This software is free of charge under research purposes.
@@ -12,7 +12,6 @@
  *
  * =================================================================================
  */
-
 package mzoom;
 
 /**
@@ -26,10 +25,10 @@ public class Geometric implements IDensityMeasure {
     private long mass;
     private double productOfCardinalities;
 
-    public double initialize(Tensor tensor) {
-        this.dimension = tensor.dimension;
-        this.cardinalities = tensor.cardinalities.clone();
-        this.mass = tensor.mass;
+    public double initialize(int dimension, int[] cardinalities, long mass) {
+        this.dimension = dimension;
+        this.cardinalities = cardinalities.clone();
+        this.mass = mass;
         productOfCardinalities = 1;
         for(int dim = 0; dim < dimension; dim++) {
             productOfCardinalities *= cardinalities[dim];
@@ -37,14 +36,36 @@ public class Geometric implements IDensityMeasure {
         return density(mass, productOfCardinalities);
     }
 
-    public double ifRemoved(int attribute, int mass) {
-        return density(this.mass - mass, productOfCardinalities / cardinalities[attribute] * (cardinalities[attribute] - 1));
+    public double initialize(int dimension, int[] cardinalitiesOfAll, long massOfAll, int[] cardinaltiesOfBlock, long massOfBlock) {
+        this.dimension = dimension;
+        this.cardinalities = cardinaltiesOfBlock.clone();
+        this.mass = massOfBlock;
+        productOfCardinalities = 1;
+        for(int dim = 0; dim < dimension; dim++) {
+            productOfCardinalities *= cardinaltiesOfBlock[dim];
+        }
+        return density(mass, productOfCardinalities);
     }
 
-    public double remove(int attribute, int mass) {
-        cardinalities[attribute]--;
+    public double ifRemoved(int attribute, int numValues, long sumOfMasses) {
+        return density(this.mass - sumOfMasses, productOfCardinalities / cardinalities[attribute] * (cardinalities[attribute] - numValues));
+    }
+
+    public double ifInserted(int attribute, int numValues, long sumOfMasses) {
+        return density(this.mass + sumOfMasses, productOfCardinalities / cardinalities[attribute] * (cardinalities[attribute] + numValues));
+    }
+
+    public double remove(int attribute, int numValues, long sumOfMasses) {
+        cardinalities[attribute] -= numValues;
         productOfCardinalities = Suspiciousness.productOfCardinalities(cardinalities); //recompute due to the precision error
-        this.mass -= mass;
+        this.mass -= sumOfMasses;
+        return density(this.mass, productOfCardinalities);
+    }
+
+    public double insert(int attribute, int numValues, long sumOfMasses) {
+        cardinalities[attribute] += numValues;
+        productOfCardinalities = Suspiciousness.productOfCardinalities(cardinalities); //recompute due to the precision error
+        this.mass += sumOfMasses;
         return density(this.mass, productOfCardinalities);
     }
 

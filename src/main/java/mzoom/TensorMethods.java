@@ -3,8 +3,8 @@
  * M-Zoom: Fast Dense Block Detection in Tensors with Quality Guarantees.
  * Authors: Kijung Shin, Bryan Hooi, and Christos Faloutsos
  *
- * Version: 1.0
- * Date: March 10, 2016
+ * Version: 2.0
+ * Date: Nov 8, 2016
  * Main Contact: Kijung Shin (kijungs@cs.cmu.edu)
  *
  * This software is free of charge under research purposes.
@@ -15,7 +15,9 @@
 
 package mzoom;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,10 +34,10 @@ public class TensorMethods {
      * @return  imported tensor
      * @throws IOException
      */
-    public static Tensor importSparseTensor(final String path, final int dimension) throws IOException {
-        return importSparseTensor(path, ",", dimension);
+    public static Tensor importTensor(final String path, final int dimension) throws IOException {
+        return importTensor(path, ",", dimension);
     }
-
+    
     /**
      * load an input tensor in memory
      * @param path  path of the input tensor file
@@ -44,74 +46,74 @@ public class TensorMethods {
      * @return  imported tensor
      * @throws IOException
      */
-	public static Tensor importSparseTensor(final String path, final String delim, final int dimension) throws IOException{
+    public static Tensor importTensor(final String path, final String delim, final int dimension) throws IOException{
 
         long start = System.currentTimeMillis();
 
-		int omega = 0; // number of tuples
-		final int[] maxValues = new int[dimension];
+        int omega = 0; // number of tuples
+        final int[] maxValues = new int[dimension];
         final Map<String, Integer>[] strToIntValue = new Map[dimension];
-		final Map<Integer, Integer>[] attributeToValueToNum = new Map[dimension];
-		for(int dim = 0; dim < dimension; dim++) {
-			attributeToValueToNum[dim] = new HashMap();
+        final Map<Integer, Integer>[] attributeToValueToNum = new Map[dimension];
+        for(int dim = 0; dim < dimension; dim++) {
+            attributeToValueToNum[dim] = new HashMap();
             strToIntValue[dim] = new HashMap();
-		}
-		final BufferedReader br = new BufferedReader(new FileReader(path));
-		while(true){
-			final String line = br.readLine();
-			if(line==null)
-				break;
-			omega++;
-			final String[] tokens = line.split(delim);
+        }
+        final BufferedReader br = new BufferedReader(new FileReader(path));
+        while(true){
+            final String line = br.readLine();
+            if(line==null)
+                break;
+            omega++;
+            final String[] tokens = line.split(delim);
             if(tokens.length < dimension + 1) {
                 System.out.println("Skipped Line: " + line);
                 continue;
             }
-			for(int dim = 0; dim < dimension; dim++) {
+            for(int dim = 0; dim < dimension; dim++) {
 
                 if(!strToIntValue[dim].containsKey(tokens[dim])) {
                     strToIntValue[dim].put(tokens[dim], strToIntValue[dim].size());
                 }
 
                 int index = strToIntValue[dim].get(tokens[dim]);
-				if(attributeToValueToNum[dim].containsKey(index)) {
-					attributeToValueToNum[dim].put(index, attributeToValueToNum[dim].get(index) + 1);
-				}
-				else {
-					attributeToValueToNum[dim].put(index, 1);
-				}
-				maxValues[dim] = Math.max(maxValues[dim], index);
-			}
-		}
-		br.close();
-		final int[] cardinalities = new int[dimension];
-		final int[][] attributeToValueToNumArr = new int[dimension][];
-		for(int dim = 0; dim < dimension; dim++) {
-			cardinalities[dim] = maxValues[dim]+1;
-			attributeToValueToNumArr[dim] = new int[cardinalities[dim]];
-			for (int index : attributeToValueToNum[dim].keySet()) {
-				attributeToValueToNumArr[dim][index] = attributeToValueToNum[dim].get(index);
-			}
-		}
+                if(attributeToValueToNum[dim].containsKey(index)) {
+                    attributeToValueToNum[dim].put(index, attributeToValueToNum[dim].get(index) + 1);
+                }
+                else {
+                    attributeToValueToNum[dim].put(index, 1);
+                }
+                maxValues[dim] = Math.max(maxValues[dim], index);
+            }
+        }
+        br.close();
+        final int[] cardinalities = new int[dimension];
+        final int[][] attributeToValueToNumArr = new int[dimension][];
+        for(int dim = 0; dim < dimension; dim++) {
+            cardinalities[dim] = maxValues[dim]+1;
+            attributeToValueToNumArr[dim] = new int[cardinalities[dim]];
+            for (int index : attributeToValueToNum[dim].keySet()) {
+                attributeToValueToNumArr[dim][index] = attributeToValueToNum[dim].get(index);
+            }
+        }
 
-		Tensor tensor = importSparseTensor(path, delim, dimension, omega, cardinalities, attributeToValueToNumArr, strToIntValue);
+        Tensor tensor = importTensor(path, delim, dimension, omega, cardinalities, attributeToValueToNumArr, strToIntValue);
         System.out.println("input data were loaded. " + (System.currentTimeMillis() - start + 0.0)/1000 + " seconds was taken.");
         return tensor;
     }
 
-	/**
-	 * load an input tensor in memory
+    /**
+     * load an input tensor in memory
      * @param path  path of the input tensor file
      * @param delim delimiter used in the file
      * @param dimension number of attributes
-	 * @param omega	number of tuples
-	 * @param cardinalities	n -> cardinality of the n-th attribute
+     * @param omega	number of tuples
+     * @param cardinalities	n -> cardinality of the n-th attribute
      * @param attributeToValueToNum n, value -> number of tuples which have the given value as the n-th attribute
      * @param strToIntValue (n, value) -> int attribute value mapped to the given string value of the n-th attribute
-	 * @return imported tensor
-	 * @throws IOException 
-	 */
-	private static Tensor importSparseTensor(final String path, final String delim, final int dimension, final int omega, final int[] cardinalities, int[][] attributeToValueToNum, Map<String, Integer>[] strToIntValue) throws IOException {
+     * @return imported tensor
+     * @throws IOException
+     */
+    private static Tensor importTensor(final String path, final String delim, final int dimension, final int omega, final int[] cardinalities, int[][] attributeToValueToNum, Map<String, Integer>[] strToIntValue) throws IOException {
 
         final int[][][] attributeToValueToTuples = new int[dimension][][]; // n, value -> list of tuples which have the given value as the n-th attribute
         final int[][] attributeToValueToCurrentCardinality = new int[dimension][];
@@ -167,7 +169,7 @@ public class TensorMethods {
      * @param tensor    tensor
      * @return (n, value) -> mass of the given value of the n-th attribute
      */
-    public static int[][] mass(Tensor tensor){
+    public static int[][] attributeValueMasses(Tensor tensor){
 
         int dimension = tensor.dimension;
         int[] cardinalities = tensor.cardinalities;
@@ -188,4 +190,5 @@ public class TensorMethods {
 
         return mass;
     }
+    
 }

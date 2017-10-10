@@ -21,7 +21,7 @@ package mzoom;
  */
 public class Tensor {
 
-	public int dimension; //number of modes
+	public int dimension; //number of attributess
 
 	public int[] cardinalities; // n -> cardinality of the n-th attribute
 

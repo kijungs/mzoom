@@ -16,19 +16,19 @@
 package mzoom;
 
 /**
- * common interface for minimum heaps
+ * common interface for maximum heaps
  * @author Kijung Shin (kijungs@cs.cmu.edu)
  */
-public interface IMinHeap {
+public interface IMaxHeap {
 
     /**
-     * return a value with minimum priority
+     * return a value with maximum priority
      * @return (value, priority)
      */
     Pair<Integer, Integer> peek();
 
     /**
-     * return a value with minimum priority after removing it from the heap
+     * return a value with maximum priority after removing it from the heap
      * @return (value, priority)
      */
     Pair<Integer, Integer> poll();

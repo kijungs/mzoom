@@ -3,8 +3,8 @@
  * M-Zoom: Fast Dense Block Detection in Tensors with Quality Guarantees.
  * Authors: Kijung Shin, Bryan Hooi, and Christos Faloutsos
  *
- * Version: 1.0
- * Date: March 10, 2016
+ * Version: 2.0
+ * Date: Nov 8, 2016
  * Main Contact: Kijung Shin (kijungs@cs.cmu.edu)
  *
  * This software is free of charge under research purposes.
@@ -23,26 +23,59 @@ public interface IDensityMeasure {
 
     /**
      * initialize a density measure for a given tensor
-     * @param tensor
-     * @return
-     */
-    double initialize(Tensor tensor);
-
-    /**
-     * return density if an attribute value with a given mass is removed from a given attribute
-     * @param attribute
+     * @param dimension
+     * @param cardinalities
      * @param mass
      * @return
      */
-    double ifRemoved(int attribute, int mass);
+    double initialize(int dimension, int[] cardinalities, long mass);
 
     /**
-     * return density after removing an attribute value with a given mass from a given attribute
-     * @param attribute
-     * @param mass
+     * initialize a density measure for a given tensor and a block
+     * @param dimension
+     * @param cardinalitiesOfAll
+     * @param massOfAll
+     * @param cardinaltiesOfBlock
+     * @param massOfBlock
      * @return
      */
-    double remove(int attribute, int mass);
+    double initialize(int dimension, int[] cardinalitiesOfAll, long massOfAll, int[] cardinaltiesOfBlock, long massOfBlock);
+
+    /**
+     * return density if the given number of values with the given mass sum are removed from the given mode
+     * @param mode
+     * @param numValues
+     * @param sumOfMasses
+     * @return
+     */
+    double ifRemoved(int mode, int numValues, long sumOfMasses);
+
+    /**
+     * return density if the given number of values with the given mass sum are inserted from the given mode
+     * @param mode
+     * @param numValues
+     * @param sumOfMasses
+     * @return
+     */
+    double ifInserted(int mode, int numValues, long sumOfMasses);
+
+    /**
+     * return density after removing the given number of values with the given mass sum from the given mode
+     * @param mode
+     * @param numValues
+     * @param sumOfMasses
+     * @return
+     */
+    double remove(int mode, int numValues, long sumOfMasses);
+
+    /**
+     * return density after inserting the given number of values with the given mass sum from the given mode
+     * @param mode
+     * @param numValues
+     * @param sumOfMasses
+     * @return
+     */
+    double insert(int mode, int numValues, long sumOfMasses);
 
     /**
      * return density of a block with a given mass and cardinalities

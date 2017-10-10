@@ -16,10 +16,10 @@
 package mzoom;
 
 /**
- * Suspiciousness, one of density measures
+ * Entry Surplus, one of density measures
  * @author Kijung Shin (kijungs@cs.cmu.edu)
  */
-public class Suspiciousness implements IDensityMeasure {
+public class EntrySurplus implements IDensityMeasure {
 
     private int dimension;
     private int[] cardinalities;
@@ -27,6 +27,11 @@ public class Suspiciousness implements IDensityMeasure {
     private long massOfBlock;
     private double productOfCardinalitiesOfAll;
     private double productOfCardinalitiesOfBlock;
+    private double alpha = 1;
+
+    public EntrySurplus(double alpha) {
+        this.alpha = alpha;
+    }
 
     public double initialize(int dimension, int[] cardinalities, long mass) {
         this.dimension = dimension;
@@ -87,8 +92,8 @@ public class Suspiciousness implements IDensityMeasure {
 
     private double density(long massOfBlock, double productOfCardinalitiesOfBlock) {
         if(productOfCardinalitiesOfBlock == 0 || massOfBlock == 0)
-            return - 1;
-        return massOfBlock * (Math.log((massOfBlock+0.0)/ massOfAll) - 1) + massOfAll * productOfCardinalitiesOfBlock / productOfCardinalitiesOfAll - massOfBlock * Math.log (productOfCardinalitiesOfBlock / productOfCardinalitiesOfAll);
+            return - Integer.MAX_VALUE;;
+        return massOfBlock - alpha * productOfCardinalitiesOfBlock * massOfAll / productOfCardinalitiesOfAll;
     }
 
     public static double productOfCardinalities(int[] cardinalities){
