@@ -1,14 +1,14 @@
 M-Zoom / M-Biz
 ========================
-**M-Zoom (Multidimensional Zoom)** and **M-Biz (Multidimensional Bi-directional Zoom)** are algorithms for detecting dense blocks in tensors. 
+**M-Zoom (Multidimensional Zoom)** and **M-Biz (Multidimensional Bi-directional Zoom)** are algorithms for detecting dense subtensors. 
 They have the following properties: 
  * *scalable*: scales almost linearly with all input factors
  * *provably accurate*: provides high accuracy in real data as well as theoretical guarantees
- * *flexible*: supports high-order tensors, various density measures, multi-block detection, and size bounds
+ * *flexible*: supports high-order tensors, various density measures, multi-subtensor detection, and size bounds
 
 Datasets
 ========================
-The download links for the datasets used in the paper are [here](http://www.cs.cmu.edu/~kijungs/codes/mzoom/)
+The download links for the datasets used in the papers are [here](http://www.cs.cmu.edu/~kijungs/codes/mzoom/)
 
 Building and Running M-Zoom / M-Biz
 ========================
@@ -20,7 +20,7 @@ For demo, please type 'make'
 
 Reference
 ========================
-If you use this code as part of any published research, please acknowledge the following paper.
+If you use this code as part of any published research, please acknowledge the following papers.
 ```
 @inproceedings{shin2016mzoom,
   author    = {Kijung Shin and Bryan Hooi and Christos Faloutsos},
