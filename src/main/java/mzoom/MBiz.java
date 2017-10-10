@@ -110,7 +110,7 @@ public class MBiz extends MZoom {
      * @param attributeToValueToBeIncluded
      * @return
      */
-    protected static BlockInfo findOne(Tensor tensor, int lower, int upper, DensityMeasure densityMeasure, boolean[][] attributeToValueToBeIncluded){
+    private static BlockInfo findOne(Tensor tensor, int lower, int upper, DensityMeasure densityMeasure, boolean[][] attributeToValueToBeIncluded){
 
         final int dimension = tensor.dimension;
         final int[] measureValues = tensor.measureValues; // clone measureValues

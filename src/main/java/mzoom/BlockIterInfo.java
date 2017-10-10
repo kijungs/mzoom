@@ -41,7 +41,7 @@ public class BlockIterInfo {
         this.attributes = new byte[cardinalitySum];
         this.attVals = new int[cardinalitySum];
     }
-
+    
     public void addIterInfo(byte mode, int index) throws IOException {
         if(useBuffer) {
             attributes[curIndex] = mode;

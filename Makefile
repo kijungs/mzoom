@@ -14,4 +14,3 @@ demo:
 	@echo [DEMO] running M-biz...
 	./run_mbiz.sh example_data.txt output_mbiz 7 geo 3
 	@echo [DEMO] found blocks were saved in output
-
