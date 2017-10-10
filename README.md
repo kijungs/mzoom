@@ -29,18 +29,19 @@ If you use this code as part of any published research, please acknowledge the f
   pages     = {264--280},
   year      = {2016},
   url       = {http://dx.doi.org/10.1007/978-3-319-46128-1_17},
-  doi       = {10.1007/978-3-319-46128-1_17}
+  doi       = {10.1007/978-3-319-46128-1_17},
+  publisher = {Springer}
 }
 
 @inproceedings{shin2018mbiz,
   author    = {Kijung Shin and Bryan Hooi and Christos Faloutsos},
-  title={Fast, Accurate and Flexible Algorithms for Dense Sub-Tensor Mining},
-  journal={ACM Transactions on Knowledge Discovery from Data (TKDD)},
-  volume={PP},
-  number={PP},
-  pages={PP},
-  year={PP},
-  publisher={ACM}
+  title     = {Fast, Accurate and Flexible Algorithms for Dense Sub-Tensor Mining},
+  journal   = {ACM Transactions on Knowledge Discovery from Data (TKDD)},
+  volume    = {PP},
+  number    = {PP},
+  pages     = {PP},
+  year      = {PP},
+  publisher = {ACM}
 }
 
 ```
