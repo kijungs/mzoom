@@ -35,7 +35,7 @@ If you use this code as part of any published research, please acknowledge the f
 
 @article{shin2018mbiz,
   author    = {Kijung Shin and Bryan Hooi and Christos Faloutsos},
-  title     = {Fast, Accurate and Flexible Algorithms for Dense Sub-Tensor Mining},
+  title     = {Fast, Accurate and Flexible Algorithms for Dense Subtensor Mining},
   journal   = {ACM Transactions on Knowledge Discovery from Data (TKDD)},
   volume    = {PP},
   number    = {PP},
